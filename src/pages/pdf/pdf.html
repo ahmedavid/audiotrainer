@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar color="menu">
+    <ion-buttons start>
+      <button ion-button icon-only (click)="onDissmis()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Exercises</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <ion-fab bottom right>
+    <button ion-fab (click)="zoomIn()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab (click)="zoomOut()"><ion-icon name="remove"></ion-icon></button>
+
+  </ion-fab>
+
+  <pdf-viewer *ngIf="isDevice;else other_content" [src]="src"
+              [zoom]="zoom"
+              [show-all]="true"
+              [original-size]="false"
+              style="display: block;"
+  ></pdf-viewer>
+
+  <ng-template #other_content>PDF only supported on native devices</ng-template>
+
+</ion-content>

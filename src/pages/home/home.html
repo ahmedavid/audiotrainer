@@ -1,14 +1,57 @@
 <ion-header>
   <ion-navbar>
+
+    <ion-buttons start>
+      <button ion-button icon-only navPush="SettingsPage">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+
+
     <ion-title>
-      Ionic Blank
+      AudioTrainer
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+  <ion-list no-lines nowrap>
+
+    <ion-item-sliding *ngFor="let track of audio.tracks;let i=index;">
+      <button ion-item detail-none text-wrap [ngClass]="{'playing':track.isPlaying}" (click)="play(track)">
+        <ion-icon *ngIf="!track.isPlaying" name="play" item-left color="menu"></ion-icon>
+        <ion-icon *ngIf="track.isPlaying" name="pause" item-left color="menu"></ion-icon>
+        <ion-spinner *ngIf="track.isLoading" item-right></ion-spinner>
+        <h2>{{track.title}}</h2>
+        <p *ngIf="track.isPlaying">Playing</p>
+      </button>
+      <ion-item-options side="right">
+        <button ion-button icon-only (click)="openDoc(i)"><ion-icon style="font-size: 2.2em" name="document" color="light"></ion-icon></button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+
+  </ion-list>
+
 </ion-content>
+
+<ion-footer padding *ngIf="current">
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-2 *ngIf="current">
+        <button *ngIf="!current.isPlaying" ion-fab color="light" (click)="play(current)"><ion-icon name="play"></ion-icon></button>
+        <button *ngIf="current.isPlaying" ion-fab color="light" (click)="play(current)"><ion-icon name="pause"></ion-icon></button>
+      </ion-col>
+      <ion-col>
+        <audio-track-progress-bar duration progress #audioTrack [audioTrack]="current" style="width: 100%; margin: 10px"></audio-track-progress-bar>
+        <div style="display: flex; justify-content: center;">
+          <div *ngIf="current && current.hasLoaded">{{ current?.title }}</div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-footer>
